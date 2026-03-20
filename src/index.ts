@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import users from "./modules/users/users.routes";
 
 const app = new Hono();
 
@@ -13,5 +14,7 @@ app.get("/HI", (c) => {
 app.post("/", async (c) => {
   return await c.req.json();
 });
+
+app.route("/users", users);
 
 export default app;
