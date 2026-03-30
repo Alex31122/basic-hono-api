@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import users from "./modules/users/users.routes";
+import todos from "./modules/todos/todos.routes";
 
 const app = new Hono();
 
@@ -16,5 +17,6 @@ app.post("/", async (c) => {
 });
 
 app.route("/users", users);
+app.route("/todos", todos);
 
 export default app;
