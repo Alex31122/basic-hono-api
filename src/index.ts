@@ -2,8 +2,11 @@ import { Hono } from "hono";
 import users from "./modules/users/users.routes";
 import todos from "./modules/todos/todos.routes";
 import login from "./modules/login/login.routes";
+import { authMiddleware } from "./middlewares/auth.middleware";
 
 const app = new Hono();
+
+app.use("/todos/*", authMiddleware);
 
 app.get("/", (c) => {
   return c.text("Hello Hono!");
