@@ -7,12 +7,17 @@ import { eq } from "drizzle-orm";
 export const UserService = {
   getAll: async () => {
     const allUsers = await db.select().from(userSchema);
-    return allUsers;
+    const safeUsers = allUsers.map((user) => UserResponseSchema.parse(user));
+    return safeUsers;
   },
 
   getOne: async (id: number) => {
-    const [userfetched] = await db.select().from(userSchema).where(eq(userSchema.id, id)).limit(1);
-    return userfetched;
+    const [userfetched] = await db
+      .select()
+      .from(userSchema)
+      .where(eq(userSchema.id, id))
+      .limit(1);
+    return UserResponseSchema.parse(userfetched);
   },
 
   create: async (user: typeof userSchema.$inferInsert) => {
@@ -23,9 +28,12 @@ export const UserService = {
       const userToSave = {
         ...user,
         password: hashedPassword,
-      }
+      };
 
-      const [result] = await db.insert(userSchema).values(userToSave).returning();
+      const [result] = await db
+        .insert(userSchema)
+        .values(userToSave)
+        .returning();
 
       if (!result) {
         throw new Error("The user could not be created");
@@ -39,11 +47,14 @@ export const UserService = {
   },
 
   delete: async (id: number) => {
-    const [result] = await db.delete(userSchema).where(eq(userSchema.id, id)).returning();
+    const [result] = await db
+      .delete(userSchema)
+      .where(eq(userSchema.id, id))
+      .returning();
     if (!result) {
       throw new Error("USER_NOT_FOUND");
     }
 
     return UserResponseSchema.parse(result);
-  }
-}
+  },
+};

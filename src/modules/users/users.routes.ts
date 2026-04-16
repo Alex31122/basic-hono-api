@@ -4,14 +4,12 @@ const users = new Hono();
 
 users.get("/", async (c) => {
   const users = await UserService.getAll();
-  console.log(users);
   return c.json(users);
 });
 
 users.get("/:id", async (c) => {
   const id = Number(c.req.param("id"));
   const user = await UserService.getOne(id);
-  console.log(user);
   return c.json(user);
 });
 
@@ -26,13 +24,13 @@ users.put("/:id", async (c) => {
   console.log(id);
   console.log(user);
   return c.json({ message: "Hi from put method" });
-})
+});
 
 users.delete("/:id", async (c) => {
   const id = Number(c.req.param("id"));
   const user = await UserService.delete(id);
   console.log(user);
   return c.json({ message: "User deleted succesfully" });
-})
+});
 
 export default users;

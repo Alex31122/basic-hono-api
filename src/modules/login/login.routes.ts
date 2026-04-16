@@ -63,6 +63,7 @@ login.post("/signin", zValidator("json", loginSchema), async (c) => {
     path: "/",
     httpOnly: true,
     secure: false,
+    sameSite: "Lax",
     maxAge: 60 * 15,
   });
 
