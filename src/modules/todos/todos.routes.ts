@@ -37,4 +37,11 @@ todos.post("/", async (c) => {
   return c.json(newTodo, 201);
 });
 
+todos.delete("/:todoId", async (c) => {
+  const todoId = Number(c.req.param("todoId"));
+  const deletedUser = await TodoService.delete(todoId);
+
+  return c.json(deletedUser);
+});
+
 export default todos;

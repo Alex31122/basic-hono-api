@@ -7,10 +7,12 @@ import { authMiddleware } from "./middlewares/auth.middleware";
 
 const app = new Hono();
 
+const ALLOWED_ORIGIN = process.env.FRONTEND_URL ?? "http://localhost:4200";
+
 app.use(
   "*",
   cors({
-    origin: "http://localhost:4200",
+    origin: ALLOWED_ORIGIN,
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     credentials: true,
