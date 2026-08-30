@@ -32,4 +32,14 @@ export const TodoService = {
       .returning();
     return deletedTodo[0];
   },
+
+  update: async (id: number, todo: Partial<typeof todoSchema.$inferInsert>) => {
+    const [updatedTodo] = await db
+      .update(todoSchema)
+      .set(todo)
+      .where(eq(todoSchema.id, id))
+      .returning();
+
+    return updatedTodo;
+  },
 };

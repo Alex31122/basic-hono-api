@@ -44,4 +44,12 @@ todos.delete("/:todoId", async (c) => {
   return c.json(deletedUser);
 });
 
+todos.put("/:todoId", async (c) => {
+  const todoId = Number(c.req.param("todoId"));
+  const body = await c.req.json();
+  const updatedTodo = await TodoService.update(todoId, body);
+
+  return c.json(updatedTodo);
+});
+
 export default todos;
